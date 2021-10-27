@@ -6,44 +6,12 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "devtestgowtham"
-		},
-		"Stormevent_properties_typeProperties_endpoint": {
-			"type": "string",
-			"defaultValue": "https://dtnademo.eastus.kusto.windows.net"
-		},
-		"Stormevent_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "dtna-dev-demo"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/featurepipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Wait1",
-						"type": "Wait",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"waitTimeInSeconds": 1
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Stormevent')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
@@ -52,140 +20,11 @@
 				"annotations": [],
 				"type": "AzureDataExplorer",
 				"typeProperties": {
-					"endpoint": "[parameters('Stormevent_properties_typeProperties_endpoint')]",
-					"database": "[parameters('Stormevent_properties_typeProperties_database')]"
+					"endpoint": "https://dtnademo.eastus.kusto.windows.net",
+					"database": "dtna-dev-demo"
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureDataExplorerTableSource')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Stormevent",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureDataExplorerTable",
-				"schema": [],
-				"typeProperties": {
-					"table": "StormEvents"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Stormevent')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureDataExplorerTableDestination')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Stormevent",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureDataExplorerTable",
-				"schema": [
-					{
-						"name": "StartTime",
-						"type": "datetime"
-					},
-					{
-						"name": "EndTime",
-						"type": "datetime"
-					},
-					{
-						"name": "EpisodeId",
-						"type": "int"
-					},
-					{
-						"name": "EventId",
-						"type": "int"
-					},
-					{
-						"name": "State",
-						"type": "string"
-					},
-					{
-						"name": "EventType",
-						"type": "string"
-					},
-					{
-						"name": "InjuriesDirect",
-						"type": "int"
-					},
-					{
-						"name": "InjuriesIndirect",
-						"type": "int"
-					},
-					{
-						"name": "DeathsDirect",
-						"type": "int"
-					},
-					{
-						"name": "DeathsIndirect",
-						"type": "int"
-					},
-					{
-						"name": "DamageProperty",
-						"type": "int"
-					},
-					{
-						"name": "DamageCrops",
-						"type": "int"
-					},
-					{
-						"name": "Source",
-						"type": "string"
-					},
-					{
-						"name": "BeginLocation",
-						"type": "string"
-					},
-					{
-						"name": "EndLocation",
-						"type": "string"
-					},
-					{
-						"name": "BeginLat",
-						"type": "real"
-					},
-					{
-						"name": "BeginLon",
-						"type": "real"
-					},
-					{
-						"name": "EndLat",
-						"type": "real"
-					},
-					{
-						"name": "EndLon",
-						"type": "real"
-					},
-					{
-						"name": "EpisodeNarrative",
-						"type": "string"
-					},
-					{
-						"name": "EventNarrative",
-						"type": "string"
-					},
-					{
-						"name": "StormSummary",
-						"type": "dynamic"
-					}
-				],
-				"typeProperties": {
-					"table": "StormEvents2"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Stormevent')]"
-			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/CopyData_ADX_bulk')]",
@@ -493,28 +332,151 @@
 						"inputs": [
 							{
 								"referenceName": "AzureDataExplorerTableSource",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "AzureDataExplorerTableDestination",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					}
 				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
 				"annotations": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/AzureDataExplorerTableSource')]",
 				"[concat(variables('factoryId'), '/datasets/AzureDataExplorerTableDestination')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataExplorerTableSource')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Stormevent",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureDataExplorerTable",
+				"schema": [],
+				"typeProperties": {
+					"table": "StormEvents"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Stormevent')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataExplorerTableDestination')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Stormevent",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureDataExplorerTable",
+				"schema": [
+					{
+						"name": "StartTime",
+						"type": "datetime"
+					},
+					{
+						"name": "EndTime",
+						"type": "datetime"
+					},
+					{
+						"name": "EpisodeId",
+						"type": "int"
+					},
+					{
+						"name": "EventId",
+						"type": "int"
+					},
+					{
+						"name": "State",
+						"type": "string"
+					},
+					{
+						"name": "EventType",
+						"type": "string"
+					},
+					{
+						"name": "InjuriesDirect",
+						"type": "int"
+					},
+					{
+						"name": "InjuriesIndirect",
+						"type": "int"
+					},
+					{
+						"name": "DeathsDirect",
+						"type": "int"
+					},
+					{
+						"name": "DeathsIndirect",
+						"type": "int"
+					},
+					{
+						"name": "DamageProperty",
+						"type": "int"
+					},
+					{
+						"name": "DamageCrops",
+						"type": "int"
+					},
+					{
+						"name": "Source",
+						"type": "string"
+					},
+					{
+						"name": "BeginLocation",
+						"type": "string"
+					},
+					{
+						"name": "EndLocation",
+						"type": "string"
+					},
+					{
+						"name": "BeginLat",
+						"type": "real"
+					},
+					{
+						"name": "BeginLon",
+						"type": "real"
+					},
+					{
+						"name": "EndLat",
+						"type": "real"
+					},
+					{
+						"name": "EndLon",
+						"type": "real"
+					},
+					{
+						"name": "EpisodeNarrative",
+						"type": "string"
+					},
+					{
+						"name": "EventNarrative",
+						"type": "string"
+					},
+					{
+						"name": "StormSummary",
+						"type": "dynamic"
+					}
+				],
+				"typeProperties": {
+					"table": "StormEvents2"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Stormevent')]"
 			]
 		}
 	]

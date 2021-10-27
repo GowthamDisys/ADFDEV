@@ -4,6 +4,12 @@
 	"parameters": {
 		"factoryName": {
 			"value": "devtestgowtham"
+		},
+		"Stormevent_properties_typeProperties_endpoint": {
+			"value": "https://dtnademo.eastus.kusto.windows.net"
+		},
+		"Stormevent_properties_typeProperties_database": {
+			"value": "dtna-dev-demo"
 		}
 	}
 }

@@ -7,6 +7,14 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "devtestgowtham"
 		},
+		"Stormevent_properties_typeProperties_endpoint": {
+			"type": "string",
+			"defaultValue": "https://dtnademo.eastus.kusto.windows.net"
+		},
+		"Stormevent_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "dtna-dev-demo"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -33,6 +41,12 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"Stormevent_properties_typeProperties_endpoint": {
+						"value": "[parameters('Stormevent_properties_typeProperties_endpoint')]"
+					},
+					"Stormevent_properties_typeProperties_database": {
+						"value": "[parameters('Stormevent_properties_typeProperties_database')]"
 					}
 				}
 			},

@@ -6,6 +6,14 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "devtestgowtham"
+		},
+		"Stormevent_properties_typeProperties_endpoint": {
+			"type": "string",
+			"defaultValue": "https://dtnademo.eastus.kusto.windows.net"
+		},
+		"Stormevent_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "dtna-dev-demo"
 		}
 	},
 	"variables": {
@@ -35,6 +43,479 @@
 				"annotations": []
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Stormevent')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDataExplorer",
+				"typeProperties": {
+					"endpoint": "[parameters('Stormevent_properties_typeProperties_endpoint')]",
+					"database": "[parameters('Stormevent_properties_typeProperties_database')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CopyData_ADX_bulk')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureDataExplorerSource",
+								"query": "StormEvents",
+								"queryTimeout": "00:10:00"
+							},
+							"sink": {
+								"type": "AzureDataExplorerSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "StartTime",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "StartTime",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										}
+									},
+									{
+										"source": {
+											"name": "EndTime",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "EndTime",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										}
+									},
+									{
+										"source": {
+											"name": "EpisodeId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "EpisodeId",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "EventId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "EventId",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "State",
+											"type": "String",
+											"physicalType": "string"
+										},
+										"sink": {
+											"name": "State",
+											"type": "String",
+											"physicalType": "string"
+										}
+									},
+									{
+										"source": {
+											"name": "EventType",
+											"type": "String",
+											"physicalType": "string"
+										},
+										"sink": {
+											"name": "EventType",
+											"type": "String",
+											"physicalType": "string"
+										}
+									},
+									{
+										"source": {
+											"name": "InjuriesDirect",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "InjuriesDirect",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "InjuriesIndirect",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "InjuriesIndirect",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "DeathsDirect",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "DeathsDirect",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "DeathsIndirect",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "DeathsIndirect",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "DamageProperty",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "DamageProperty",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "DamageCrops",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "DamageCrops",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "Source",
+											"type": "String",
+											"physicalType": "string"
+										},
+										"sink": {
+											"name": "Source",
+											"type": "String",
+											"physicalType": "string"
+										}
+									},
+									{
+										"source": {
+											"name": "BeginLocation",
+											"type": "String",
+											"physicalType": "string"
+										},
+										"sink": {
+											"name": "BeginLocation",
+											"type": "String",
+											"physicalType": "string"
+										}
+									},
+									{
+										"source": {
+											"name": "EndLocation",
+											"type": "String",
+											"physicalType": "string"
+										},
+										"sink": {
+											"name": "EndLocation",
+											"type": "String",
+											"physicalType": "string"
+										}
+									},
+									{
+										"source": {
+											"name": "BeginLat",
+											"type": "Double",
+											"physicalType": "real"
+										},
+										"sink": {
+											"name": "BeginLat",
+											"type": "Double",
+											"physicalType": "real"
+										}
+									},
+									{
+										"source": {
+											"name": "BeginLon",
+											"type": "Double",
+											"physicalType": "real"
+										},
+										"sink": {
+											"name": "BeginLon",
+											"type": "Double",
+											"physicalType": "real"
+										}
+									},
+									{
+										"source": {
+											"name": "EndLat",
+											"type": "Double",
+											"physicalType": "real"
+										},
+										"sink": {
+											"name": "EndLat",
+											"type": "Double",
+											"physicalType": "real"
+										}
+									},
+									{
+										"source": {
+											"name": "EndLon",
+											"type": "Double",
+											"physicalType": "real"
+										},
+										"sink": {
+											"name": "EndLon",
+											"type": "Double",
+											"physicalType": "real"
+										}
+									},
+									{
+										"source": {
+											"name": "EpisodeNarrative",
+											"type": "String",
+											"physicalType": "string"
+										},
+										"sink": {
+											"name": "EpisodeNarrative",
+											"type": "String",
+											"physicalType": "string"
+										}
+									},
+									{
+										"source": {
+											"name": "EventNarrative",
+											"type": "String",
+											"physicalType": "string"
+										},
+										"sink": {
+											"name": "EventNarrative",
+											"type": "String",
+											"physicalType": "string"
+										}
+									},
+									{
+										"source": {
+											"name": "StormSummary",
+											"type": "String",
+											"physicalType": "dynamic"
+										},
+										"sink": {
+											"name": "StormSummary",
+											"type": "String",
+											"physicalType": "dynamic"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "AzureDataExplorerTableSource",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureDataExplorerTableDestination",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/AzureDataExplorerTableSource')]",
+				"[concat(variables('factoryId'), '/datasets/AzureDataExplorerTableDestination')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataExplorerTableSource')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Stormevent",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureDataExplorerTable",
+				"schema": [],
+				"typeProperties": {
+					"table": "StormEvents"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Stormevent')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataExplorerTableDestination')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Stormevent",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureDataExplorerTable",
+				"schema": [
+					{
+						"name": "StartTime",
+						"type": "datetime"
+					},
+					{
+						"name": "EndTime",
+						"type": "datetime"
+					},
+					{
+						"name": "EpisodeId",
+						"type": "int"
+					},
+					{
+						"name": "EventId",
+						"type": "int"
+					},
+					{
+						"name": "State",
+						"type": "string"
+					},
+					{
+						"name": "EventType",
+						"type": "string"
+					},
+					{
+						"name": "InjuriesDirect",
+						"type": "int"
+					},
+					{
+						"name": "InjuriesIndirect",
+						"type": "int"
+					},
+					{
+						"name": "DeathsDirect",
+						"type": "int"
+					},
+					{
+						"name": "DeathsIndirect",
+						"type": "int"
+					},
+					{
+						"name": "DamageProperty",
+						"type": "int"
+					},
+					{
+						"name": "DamageCrops",
+						"type": "int"
+					},
+					{
+						"name": "Source",
+						"type": "string"
+					},
+					{
+						"name": "BeginLocation",
+						"type": "string"
+					},
+					{
+						"name": "EndLocation",
+						"type": "string"
+					},
+					{
+						"name": "BeginLat",
+						"type": "real"
+					},
+					{
+						"name": "BeginLon",
+						"type": "real"
+					},
+					{
+						"name": "EndLat",
+						"type": "real"
+					},
+					{
+						"name": "EndLon",
+						"type": "real"
+					},
+					{
+						"name": "EpisodeNarrative",
+						"type": "string"
+					},
+					{
+						"name": "EventNarrative",
+						"type": "string"
+					},
+					{
+						"name": "StormSummary",
+						"type": "dynamic"
+					}
+				],
+				"typeProperties": {
+					"table": "StormEvents2"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Stormevent')]"
+			]
 		}
 	]
 }
