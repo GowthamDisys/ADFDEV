@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureDataExplorerSource",
-						"query": "StormEvents | take 100000",
+						"query": "StormEvents | take 50000",
 						"queryTimeout": "00:10:00"
 					},
 					"sink": {
