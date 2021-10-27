@@ -1,0 +1,104 @@
+{
+	"name": "AzureDataExplorerTableDestination",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Stormevent",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureDataExplorerTable",
+		"schema": [
+			{
+				"name": "StartTime",
+				"type": "datetime"
+			},
+			{
+				"name": "EndTime",
+				"type": "datetime"
+			},
+			{
+				"name": "EpisodeId",
+				"type": "int"
+			},
+			{
+				"name": "EventId",
+				"type": "int"
+			},
+			{
+				"name": "State",
+				"type": "string"
+			},
+			{
+				"name": "EventType",
+				"type": "string"
+			},
+			{
+				"name": "InjuriesDirect",
+				"type": "int"
+			},
+			{
+				"name": "InjuriesIndirect",
+				"type": "int"
+			},
+			{
+				"name": "DeathsDirect",
+				"type": "int"
+			},
+			{
+				"name": "DeathsIndirect",
+				"type": "int"
+			},
+			{
+				"name": "DamageProperty",
+				"type": "int"
+			},
+			{
+				"name": "DamageCrops",
+				"type": "int"
+			},
+			{
+				"name": "Source",
+				"type": "string"
+			},
+			{
+				"name": "BeginLocation",
+				"type": "string"
+			},
+			{
+				"name": "EndLocation",
+				"type": "string"
+			},
+			{
+				"name": "BeginLat",
+				"type": "real"
+			},
+			{
+				"name": "BeginLon",
+				"type": "real"
+			},
+			{
+				"name": "EndLat",
+				"type": "real"
+			},
+			{
+				"name": "EndLon",
+				"type": "real"
+			},
+			{
+				"name": "EpisodeNarrative",
+				"type": "string"
+			},
+			{
+				"name": "EventNarrative",
+				"type": "string"
+			},
+			{
+				"name": "StormSummary",
+				"type": "dynamic"
+			}
+		],
+		"typeProperties": {
+			"table": "StormEvents2"
+		}
+	}
+}
