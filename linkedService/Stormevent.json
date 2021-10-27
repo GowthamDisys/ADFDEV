@@ -1,0 +1,11 @@
+{
+	"name": "Stormevent",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDataExplorer",
+		"typeProperties": {
+			"endpoint": "https://dtnademo.eastus.kusto.windows.net",
+			"database": "dtna-dev-demo"
+		}
+	}
+}
